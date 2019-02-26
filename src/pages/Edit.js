@@ -10,13 +10,13 @@ class Edit extends Component {
     loading: false
   };
 
+  componentDidMount() {
+    this.setState({ loading: true });
+  }
+
   async componentDidUpdate() {
-    if (
-      this.state.scriptsLoaded &&
-      !this.state.readyCanvas &&
-      !this.state.loading
-    ) {
-      this.setState({ readyCanvas: true });
+    if (this.state.scriptsLoaded && !this.state.readyCanvas) {
+      this.setState({ loading: false, readyCanvas: true });
       const { VB, animationData } = window;
       VB.StageWidth = 1920;
       VB.StageHeight = 1080;
@@ -27,7 +27,11 @@ class Edit extends Component {
   }
 
   render() {
-    const { files } = this.props;
+    const { files, loading } = this.props;
+
+    if (loading) {
+      return <p>スクリプトファイルをローディング中...</p>;
+    }
 
     return (
       <div>
