@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import Canvas from './Canvas';
 import LoadExternalScript from '../LoadExternalScript';
 
 class Edit extends Component {
@@ -8,10 +9,6 @@ class Edit extends Component {
     readyCanvas: false,
     loading: false
   };
-
-  componentDidMount() {
-    console.log('did mount');
-  }
 
   async componentDidUpdate() {
     if (
@@ -30,15 +27,12 @@ class Edit extends Component {
   }
 
   render() {
+    const { files } = this.props;
+
     return (
       <div>
         <LoadExternalScript
-          srcs={[
-            '/canvas/json/anim-1.js',
-            '/canvas/js/mask/mask-pattern1.js',
-            '/canvas/js/text/pattern165.js',
-            '/canvas/js/text/pattern182.js'
-          ]}
+          srcs={files}
           onLoad={() => {
             this.setState({ scriptsLoaded: true });
           }}
@@ -47,34 +41,7 @@ class Edit extends Component {
         <p>
           <Link to="/">Top Page</Link>
         </p>
-        <div
-          id="animation_container"
-          style={{ width: '960px', height: '540px' }}
-        >
-          <canvas
-            id="canvas"
-            width="1920"
-            height="1080"
-            style={{
-              position: 'absolue',
-              display: 'block',
-              width: '960px',
-              height: '540px'
-            }}
-          />
-          <div
-            id="dom_overlay_container"
-            style={{
-              pointerEvents: 'none',
-              overflow: 'hidden',
-              width: '550px',
-              height: '400px',
-              position: 'absolute',
-              left: 0,
-              top: 0
-            }}
-          />
-        </div>
+        <Canvas />
       </div>
     );
   }
